@@ -79,5 +79,34 @@ ALTER TABLE reviewPhotos ADD FOREIGN KEY (review_id) REFERENCES reviews (id);
 -- -- SQL Queries
 -- -- ---
 
--- get average rating for product
+-- -- return a row as a json rather than a table
+-- SELECT row_to_json(r) FROM reviews r WHERE r.product_id = 13;
+
+-- -- return a series of jsons from a table
+-- SELECT json_agg(r) FROM (
+--  SELECT r.product_id, r.summary, r.recommend, r.rating FROM reviews r WHERE r.product_id < 5
+-- ) r;
+
+-- -- return a nested json
+
+-- -- get average rating for product
 -- SELECT AVG(r.rating) FROM reviews r WHERE r.product_id = 13;
+
+-- -- get all ratings for product
+-- SELECT r.rating, COUNT(r.rating) FROM reviews r WHERE r.product_id = 13 GROUP BY r.rating;
+
+-- -- get number of times a product has been recommended
+-- SELECT COUNT(r.recommend) FROM reviews r WHERE r.recommend = true AND r.product_id = 13;
+
+-- -- return average characteristic ratings for a certain product
+-- SELECT c.name, AVG(cr.value) FROM characteristics c, characteristicsreviews cr WHERE c.product_id = 13
+-- AND c.id = cr.characteristic_id GROUP BY c.name;
+
+-- -- return average characteristics as json key-value pairs
+-- select json_object_agg(e.name, e.avg) from (select c.name, avg(cr.value)
+-- from characteristics c, characteristicsreviews cr
+-- where c.product_id = 1 and c.id = cr.characteristic_id
+-- group by c.name) e;
+
+
+-- -- all together
