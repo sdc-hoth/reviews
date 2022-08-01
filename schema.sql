@@ -141,7 +141,30 @@ ALTER TABLE reviewPhotos ADD FOREIGN KEY (review_id) REFERENCES reviews (id);
 -- select review.id, review.product_id, review.body, review.photos
 -- from review;
 
-
+-- -- all-together - 4.626s
+-- select json_build_object(
+-- 	'product', 12,
+-- 	'page', 0,
+-- 	'count', 5,
+-- 	'results',
+-- 	(
+-- 		select json_agg(rp) as results
+-- 		from (
+-- 			select r.*,
+-- 			coalesce((
+-- 				select json_agg(pho)
+-- 				from (
+-- 					select rp.id, rp.url
+-- 					from reviewphotos rp
+-- 					where rp.review_id = r.id
+-- 				) as pho
+-- 			), '[]') as photos
+-- 			from reviews r
+-- 			where r.product_id=12
+-- 			limit 5
+-- 		) as rp
+-- 	)
+-- )
 
 -- -- -- exact matches for meta
 
@@ -159,45 +182,45 @@ ALTER TABLE reviewPhotos ADD FOREIGN KEY (review_id) REFERENCES reviews (id);
 -- with chars as (select c.id, avg(cr.value) as value from characteristics c, characteristicsreviews cr where c.product_id = 5 and c.id=cr.characteristic_id group by c.id), res as (select json_object_agg(c.name, row_to_json(chars)) as characteristics from characteristics c, chars where c.id=chars.id) select row_to_json(res) from res;
 
 -- -- all together - 1.935s
-with ratings as (
-	select r.rating,
-	count(r.rating)
-	from reviews r where r.product_id=5 group by rating
-),
-chars as (
-	select c.id,
-	avg(cr.value) as value
-	from characteristics c,
-	characteristicsreviews cr
-	where c.product_id = 5
-	and c.id=cr.characteristic_id
-	group by c.id
-),
-res as (
-	select json_object_agg(c.name, row_to_json(chars)) as characteristics
-	from characteristics c, chars
-	where c.id=chars.id
-),
-meta as (
-select
-	(
-		select distinct r.product_id
-		from reviews r
-		where r.product_id=5
-) as product_id,
-	(
-		select json_object_agg(ratings.rating, ratings.count)
-		from ratings
-) as ratings,
-	(
-		select count(r.recommend)
-		from reviews r
-		where r.recommend = true and product_id=5
-) as recommend,
-	(
-		select json_object_agg(c.name, row_to_json(chars)) as characteristics
-		from characteristics c, chars
-		where c.id=chars.id
-	) as characteristics)
-select row_to_json(meta) from meta;
+-- with ratings as (
+-- 	select r.rating,
+-- 	count(r.rating)
+-- 	from reviews r where r.product_id=5 group by rating
+-- ),
+-- chars as (
+-- 	select c.id,
+-- 	avg(cr.value) as value
+-- 	from characteristics c,
+-- 	characteristicsreviews cr
+-- 	where c.product_id = 5
+-- 	and c.id=cr.characteristic_id
+-- 	group by c.id
+-- ),
+-- res as (
+-- 	select json_object_agg(c.name, row_to_json(chars)) as characteristics
+-- 	from characteristics c, chars
+-- 	where c.id=chars.id
+-- ),
+-- meta as (
+-- select
+-- 	(
+-- 		select distinct r.product_id
+-- 		from reviews r
+-- 		where r.product_id=5
+-- ) as product_id,
+-- 	(
+-- 		select json_object_agg(ratings.rating, ratings.count)
+-- 		from ratings
+-- ) as ratings,
+-- 	(
+-- 		select count(r.recommend)
+-- 		from reviews r
+-- 		where r.recommend = true and product_id=5
+-- ) as recommend,
+-- 	(
+-- 		select json_object_agg(c.name, row_to_json(chars)) as characteristics
+-- 		from characteristics c, chars
+-- 		where c.id=chars.id
+-- 	) as characteristics)
+-- select row_to_json(meta) from meta;
 
