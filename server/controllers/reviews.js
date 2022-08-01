@@ -14,14 +14,22 @@ module.exports.getReviews = (req, res) => {
   getReviewData = (product_id) => {
     pool.query(
       `select json_build_object(
-        'product', ${product_id},
+        'product', 12,
         'page', 0,
         'count', 5,
         'results',
         (
           select json_agg(rp) as results
           from (
-            select r.*,
+            select r.id as review_id,
+            r.rating as rating,
+            r.summary as summary,
+            r.recommend as recommend,
+            coalesce(nullif(r.response,''), '') as response,
+            r.body as body,
+            to_timestamp(r.date ::double precision / 1000) at time zone 'UTC' as date,
+            r.reviewer_name as reviewer_name,
+            r.helpfulness as helpfulness,
             coalesce((
               select json_agg(pho)
               from (
@@ -31,7 +39,7 @@ module.exports.getReviews = (req, res) => {
               ) as pho
             ), '[]') as photos
             from reviews r
-            where r.product_id=${product_id}
+            where r.product_id=12 and reported = false
             limit 5
           ) as rp
         )

@@ -17,12 +17,12 @@ CREATE TABLE reviews (
     reported boolean,
     reviewer_name varchar(255),
     reviewer_email varchar(255),
-    repsponse varchar(255),
+    response varchar(255),
     helpfulness smallint
 );
 
 -- COPY reviews(id,product_id,rating, date, summary, body, recommend, reported,
--- reviewer_name, reviewer_email, repsponse, helpfulness)
+-- reviewer_name, reviewer_email, response, helpfulness)
 -- FROM '/home/david/hackreactor/sdc/reviews/csv/reviews.csv'
 -- delimiter ','
 -- CSV HEADER;
