@@ -17,6 +17,7 @@ app.use((req, res, next) => {
 });
 
 app.use(bodyParser())
+app.options('*', cors());
 
 app.get('/', (req, res) => {
   res.send('hello world');
@@ -27,6 +28,10 @@ app.get('*/meta', controllers.meta)
 app.get('/reviews*', controllers.reviews)
 
 app.post('/reviews*', controllers.post)
+
+app.put('*/helpful', controllers.helpful)
+
+app.put('*/report', controllers.report)
 
 app.listen(port, () => {
   console.log(`example app listening on port ${port}`)

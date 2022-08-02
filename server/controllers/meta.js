@@ -54,7 +54,7 @@ module.exports.getMeta = (req, res) => {
         ) as characteristics)
       select row_to_json(meta) from meta`)
       .then((result) => {
-        console.log(result.rows[0].row_to_json);
+        // console.log(result.rows[0].row_to_json);
         res.send(result.rows[0].row_to_json)
       })
       }

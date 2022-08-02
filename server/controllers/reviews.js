@@ -14,6 +14,7 @@ module.exports.getReviews = (req, res) => {
   console.log('queries:', req.query)
   let sort = req.query.sort;
   sort = sort.split(':')
+  console.log('sort:', sort)
   let sort1 = sort[0];
   let sort2 = sort[1];
   let limit = req.query.count.split('').slice(0, req.query.count.length-1).join('')
@@ -57,7 +58,7 @@ module.exports.getReviews = (req, res) => {
       )`
     )
     .then((result) => {
-      console.log(result.rows[0].json_build_object);
+      // console.log(result.rows[0].json_build_object);
       res.send(result.rows[0].json_build_object)
     })
   }
