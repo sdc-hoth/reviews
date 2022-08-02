@@ -9,14 +9,24 @@ const pool = new Pool({
 module.exports.getReviews = (req, res) => {
   console.log(req.originalUrl)
   let path = req.originalUrl.split('/')
-  console.log(path[2])
+  // console.log(path)
+  let product_id = path[2];
+  console.log('queries:', req.query)
+  let sort = req.query.sort;
+  sort = sort.split(':')
+  let sort1 = sort[0];
+  let sort2 = sort[1];
+  let limit = req.query.count.split('').slice(0, req.query.count.length-1).join('')
+  // console.log(limit)
+  // console.log(path[2])
 
-  getReviewData = (product_id) => {
+  getReviewData = (product_id, sort, limit) => {
+    console.log('sorts:', sort1, sort2)
     pool.query(
       `select json_build_object(
         'product', 12,
         'page', 0,
-        'count', 5,
+        'count', ${limit},
         'results',
         (
           select json_agg(rp) as results
@@ -40,7 +50,8 @@ module.exports.getReviews = (req, res) => {
             ), '[]') as photos
             from reviews r
             where r.product_id=12 and reported = false
-            limit 5
+            order by helpfulness desc
+            limit ${limit}
           ) as rp
         )
       )`
@@ -50,5 +61,6 @@ module.exports.getReviews = (req, res) => {
       res.send(result.rows[0].json_build_object)
     })
   }
-  getReviewData(path[2])
+  getReviewData(product_id, sort, limit)
 }
+

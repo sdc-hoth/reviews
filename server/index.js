@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 const app = express();
 const cf = require('../config.js')
 
@@ -15,6 +16,8 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(bodyParser())
+
 app.get('/', (req, res) => {
   res.send('hello world');
 })
@@ -22,6 +25,8 @@ app.get('/', (req, res) => {
 app.get('*/meta', controllers.meta)
 
 app.get('/reviews*', controllers.reviews)
+
+app.post('/reviews*', controllers.post)
 
 app.listen(port, () => {
   console.log(`example app listening on port ${port}`)
