@@ -7,9 +7,9 @@ const pool = new Pool({
 })
 
 module.exports.getMeta = (req, res) => {
-  console.log(req.originalUrl);
+  // console.log(req.originalUrl);
   const path = req.originalUrl.split('/')
-  console.log(path[2]);
+  // console.log(path[2]);
 
   function getMetadata(product_id) {
     pool.query(`with ratings as (
@@ -56,6 +56,9 @@ module.exports.getMeta = (req, res) => {
       .then((result) => {
         // console.log(result.rows[0].row_to_json);
         res.send(result.rows[0].row_to_json)
+      })
+      .catch((err) => {
+        console.log('error in metadata fetching:', err);
       })
       }
   getMetadata(path[2])

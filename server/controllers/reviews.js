@@ -7,14 +7,14 @@ const pool = new Pool({
 })
 
 module.exports.getReviews = (req, res) => {
-  console.log(req.originalUrl)
+  // console.log(req.originalUrl)
   let path = req.originalUrl.split('/')
   // console.log(path)
   let product_id = path[2];
-  console.log('queries:', req.query)
+  // console.log('queries:', req.query)
   let sort = req.query.sort;
   sort = sort.split(':')
-  console.log('sort:', sort)
+  // console.log('sort:', sort)
   let sort1 = sort[0];
   let sort2 = sort[1];
   let limit = req.query.count.split('').slice(0, req.query.count.length-1).join('')
@@ -22,10 +22,10 @@ module.exports.getReviews = (req, res) => {
   // console.log(path[2])
 
   getReviewData = (product_id, sort, limit) => {
-    console.log('sorts:', sort1, sort2)
+    // console.log('sorts:', sort1, sort2)
     pool.query(
       `select json_build_object(
-        'product', 12,
+        'product', ${product_id},
         'page', 0,
         'count', ${limit},
         'results',
@@ -50,7 +50,7 @@ module.exports.getReviews = (req, res) => {
               ) as pho
             ), '[]') as photos
             from reviews r
-            where r.product_id=12 and reported = false
+            where r.product_id=${product_id} and reported = false
             order by helpfulness desc
             limit ${limit}
           ) as rp
@@ -61,6 +61,10 @@ module.exports.getReviews = (req, res) => {
       // console.log(result.rows[0].json_build_object);
       res.send(result.rows[0].json_build_object)
     })
+    .catch((err) => {
+      console.log('error in review fetching:', err);
+    })
+    // console.log('help')
   }
   getReviewData(product_id, sort, limit)
 }
