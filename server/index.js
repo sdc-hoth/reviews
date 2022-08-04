@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 app.use(bodyParser())
 app.options('*', cors());
 
-app.get('/', (req, res) => {
+app.get('/loaderio-8bea9c84652f2a644d8450c9cb4bf64c', (req, res) => {
   'loaderio-8bea9c84652f2a644d8450c9cb4bf64c'
 })
 
