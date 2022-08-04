@@ -4,17 +4,13 @@ const { Pool, Client } = require('pg');
 const pool = new Pool({
   user: 'postgres',
   password: 'postgres',
-  host: module.exports.aws,
-  // host: '54.165.187.89',
+  host: cf.aws,
   port: 5432,
   database: 'reviews'
 })
 
 module.exports.getMeta = (req, res) => {
-  // console.log(req.originalUrl);
   const path = req.originalUrl.split('/')
-  // console.log(path[2]);
-
   function getMetadata(product_id) {
     pool.query(`with ratings as (
         select r.rating,
@@ -58,7 +54,6 @@ module.exports.getMeta = (req, res) => {
         ) as characteristics)
       select row_to_json(meta) from meta`)
       .then((result) => {
-        // console.log(result.rows[0].row_to_json);
         console.log('request received & server contacted')
         res.send(result.rows[0].row_to_json)
       })

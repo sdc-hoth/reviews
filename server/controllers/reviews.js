@@ -4,30 +4,19 @@ const { Pool, Client } = require('pg');
 const pool = new Pool({
   user: 'postgres',
   password: 'postgres',
-  host: module.exports.aws,
+  host: cf.aws,
   port: 5432,
   database: 'reviews'
 })
 
 module.exports.getReviews = (req, res) => {
-  // console.log(req.originalUrl)
   let path = req.originalUrl.split('/')
-  // console.log(path)
   let product_id = path[2].split('?')[0];
-  console.log(product_id)
-  // console.log('queries:', req.query)
   let sort = req.query.sort;
-  // sort = sort.split(':')
-  // console.log('sort:', sort)
-  // let sort1 = sort[0];
-  // let sort2 = sort[1];
   let limit = req.query.count.split('').slice(0, req.query.count.length-1).join('')
-  console.log(limit)
-  // console.log(limit)
-  // console.log(path[2])
 
   getReviewData = (product_id, sort, limit) => {
-    // console.log('sorts:', sort1, sort2)
+    console.log(cf.aws)
     pool.query(
       `select json_build_object(
         'product', ${product_id},
@@ -63,14 +52,14 @@ module.exports.getReviews = (req, res) => {
       )`
     )
     .then((result) => {
-      // console.log(result.rows[0].json_build_object);
+      console.log('request received & server contacted')
       res.send(result.rows[0].json_build_object)
     })
     .catch((err) => {
       console.log('error in review fetching:', err);
     })
-    // console.log('help')
   }
+
   getReviewData(product_id, sort, limit)
 }
 
