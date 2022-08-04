@@ -2,8 +2,8 @@ const cf = require('../../config.js')
 
 const { Pool, Client } = require('pg');
 const pool = new Pool({
-  user: 'postgres',
-  password: 'postgres',
+  user: cf.user,
+  password: cf.password,
   host: cf.aws,
   port: 5432,
   database: 'reviews'
@@ -52,7 +52,7 @@ module.exports.getReviews = (req, res) => {
       )`
     )
     .then((result) => {
-      console.log('request received & server contacted')
+      console.log('reviews request received & server contacted')
       res.send(result.rows[0].json_build_object)
     })
     .catch((err) => {
