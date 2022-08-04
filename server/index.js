@@ -22,7 +22,7 @@ app.use(bodyParser())
 app.options('*', cors());
 
 app.get('/', (req, res) => {
-  res.send('hello world');
+  'loaderio-8bea9c84652f2a644d8450c9cb4bf64c'
 })
 
 app.get('*/meta', controllers.meta)
