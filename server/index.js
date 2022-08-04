@@ -18,12 +18,16 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  console.log('incoming request with url:', req.originalUrl)
+  if (req.originalUrl === '/loaderio-8bea9c84652f2a644d8450c9cb4bf64c.txt') {
+    res.send('loaderio-8bea9c84652f2a644d8450c9cb4bf64c')
+  }
+  next();
+})
+
 app.use(bodyParser())
 app.options('*', cors());
-
-app.get('/loaderio-8bea9c84652f2a644d8450c9cb4bf64c', (req, res) => {
-  'loaderio-8bea9c84652f2a644d8450c9cb4bf64c'
-})
 
 app.get('*/meta', controllers.meta)
 
