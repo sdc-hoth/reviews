@@ -1,7 +1,11 @@
+const cf = require('../../config.js')
+
 const { Pool, Client } = require('pg');
 const pool = new Pool({
   user: 'postgres',
-  host:'localhost',
+  password: 'postgres',
+  host: module.exports.aws,
+  // host: '54.165.187.89',
   port: 5432,
   database: 'reviews'
 })
@@ -55,6 +59,7 @@ module.exports.getMeta = (req, res) => {
       select row_to_json(meta) from meta`)
       .then((result) => {
         // console.log(result.rows[0].row_to_json);
+        console.log('request received & server contacted')
         res.send(result.rows[0].row_to_json)
       })
       .catch((err) => {

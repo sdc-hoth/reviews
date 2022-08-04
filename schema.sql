@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS reviewsMeta;
+-- DROP TABLE IF EXISTS reviewsMeta;
 
 -- CREATE TABLE reviewsMeta (
 --   "id" SERIAL PRIMARY KEY

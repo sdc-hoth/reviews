@@ -1,7 +1,10 @@
+const cf = require('../../config.js')
+
 const { Pool, Client } = require('pg');
 const pool = new Pool({
   user: 'postgres',
-  host:'localhost',
+  password: 'postgres',
+  host: module.exports.aws,
   port: 5432,
   database: 'reviews'
 })
@@ -10,14 +13,16 @@ module.exports.getReviews = (req, res) => {
   // console.log(req.originalUrl)
   let path = req.originalUrl.split('/')
   // console.log(path)
-  let product_id = path[2];
+  let product_id = path[2].split('?')[0];
+  console.log(product_id)
   // console.log('queries:', req.query)
   let sort = req.query.sort;
-  sort = sort.split(':')
+  // sort = sort.split(':')
   // console.log('sort:', sort)
-  let sort1 = sort[0];
-  let sort2 = sort[1];
+  // let sort1 = sort[0];
+  // let sort2 = sort[1];
   let limit = req.query.count.split('').slice(0, req.query.count.length-1).join('')
+  console.log(limit)
   // console.log(limit)
   // console.log(path[2])
 
