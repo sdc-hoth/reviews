@@ -19,7 +19,6 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
-  // console.log('incoming request with url:', req.originalUrl)
   if (req.originalUrl === '/loaderio-cd219dc698df43f549da9a9fb14ef27b.txt') {
     res.send('loaderio-cd219dc698df43f549da9a9fb14ef27b')
   }
