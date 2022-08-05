@@ -54,7 +54,7 @@ module.exports.getMeta = (req, res) => {
         ) as characteristics)
       select row_to_json(meta) from meta`)
       .then((result) => {
-        console.log('metadata request received & server contacted')
+        // console.log('metadata request received & server contacted')
         res.send(result.rows[0].row_to_json)
       })
       .catch((err) => {

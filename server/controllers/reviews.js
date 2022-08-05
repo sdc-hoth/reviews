@@ -16,7 +16,6 @@ module.exports.getReviews = (req, res) => {
   let limit = req.query.count.split('').slice(0, req.query.count.length-1).join('')
 
   getReviewData = (product_id, sort, limit) => {
-    console.log(cf.aws)
     pool.query(
       `select json_build_object(
         'product', ${product_id},
@@ -52,7 +51,7 @@ module.exports.getReviews = (req, res) => {
       )`
     )
     .then((result) => {
-      console.log('reviews request received & server contacted')
+      // console.log('reviews request received & server contacted')
       res.send(result.rows[0].json_build_object)
     })
     .catch((err) => {
