@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
-  console.log('incoming request with url:', req.originalUrl)
+  // console.log('incoming request with url:', req.originalUrl)
   if (req.originalUrl === '/loaderio-cd219dc698df43f549da9a9fb14ef27b.txt') {
     res.send('loaderio-cd219dc698df43f549da9a9fb14ef27b')
   }
@@ -33,11 +33,11 @@ app.get('*/meta', controllers.meta)
 
 app.get('/reviews*', controllers.reviews)
 
-app.post('/reviews*', controllers.post)
+// app.post('/reviews*', controllers.post)
 
-app.put('*/helpful', controllers.helpful)
+// app.put('*/helpful', controllers.helpful)
 
-app.put('*/report', controllers.report)
+// app.put('*/report', controllers.report)
 
 app.listen(port, () => {
   console.log(`example app listening on port ${port}`)
