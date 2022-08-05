@@ -20,8 +20,8 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   console.log('incoming request with url:', req.originalUrl)
-  if (req.originalUrl === '/loaderio-8bea9c84652f2a644d8450c9cb4bf64c.txt') {
-    res.send('loaderio-8bea9c84652f2a644d8450c9cb4bf64c')
+  if (req.originalUrl === '/loaderio-cd219dc698df43f549da9a9fb14ef27b.txt') {
+    res.send('loaderio-cd219dc698df43f549da9a9fb14ef27b')
   }
   next();
 })
