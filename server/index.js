@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 });
 
 
-app.use(bodyParser())
+// app.use(bodyParser())
 app.options('*', cors());
 
 app.get('*/meta', controllers.meta)
