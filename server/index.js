@@ -26,7 +26,7 @@ app.get('*/meta', controllers.meta)
 
 app.get('/reviews*', controllers.reviews)
 
-app.get('/loaderio-e3f74f1bac953e17d17c870b1717052c.txt', (req, res) => {
+app.get('loaderio-e3f74f1bac953e17d17c870b1717052c.txt', (req, res) => {
   res.send('loaderio-e3f74f1bac953e17d17c870b1717052c')
 })
 
