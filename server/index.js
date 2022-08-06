@@ -18,12 +18,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use((req, res, next) => {
-  if (req.originalUrl === '/loaderio-cd219dc698df43f549da9a9fb14ef27b.txt') {
-    res.send('loaderio-cd219dc698df43f549da9a9fb14ef27b')
-  }
-  next();
-})
 
 app.use(bodyParser())
 app.options('*', cors());
@@ -31,6 +25,10 @@ app.options('*', cors());
 app.get('*/meta', controllers.meta)
 
 app.get('/reviews*', controllers.reviews)
+
+app.get('/loaderio-cd219dc698df43f549da9a9fb14ef27b.txt', (req, res) => {
+  res.send('loaderio-cd219dc698df43f549da9a9fb14ef27b')
+})
 
 // app.post('/reviews*', controllers.post)
 
